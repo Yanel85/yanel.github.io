@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next gemini" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=6.7.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="来源：linuxDOS 网址：http://blog.chinaunix.net/uid-20786208-id-5157053.html   对于常规的iptables match或者target扩展肯定不能满足我们的需要，并且默认iptables也只识别到五元组，在深入识别已经很吃力了.显然在实际的需求面前，我们不会止步于此.下面就讲讲iptables功能扩展的插件，支持Layer7. 在L">
+<meta name="keywords" content="技术,linux,iptables">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iptables深入解析：应用层插件篇">
+<meta property="og:url" content="https://blog.yanel.me/posts/58705/index.html">
+<meta property="og:site_name" content="空虚吧☆">
+<meta property="og:description" content="来源：linuxDOS 网址：http://blog.chinaunix.net/uid-20786208-id-5157053.html   对于常规的iptables match或者target扩展肯定不能满足我们的需要，并且默认iptables也只识别到五元组，在深入识别已经很吃力了.显然在实际的需求面前，我们不会止步于此.下面就讲讲iptables功能扩展的插件，支持Layer7. 在L">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-20T12:27:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iptables深入解析：应用层插件篇">
+<meta name="twitter:description" content="来源：linuxDOS 网址：http://blog.chinaunix.net/uid-20786208-id-5157053.html   对于常规的iptables match或者target扩展肯定不能满足我们的需要，并且默认iptables也只识别到五元组，在深入识别已经很吃力了.显然在实际的需求面前，我们不会止步于此.下面就讲讲iptables功能扩展的插件，支持Layer7. 在L">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.yanel.me/posts/58705/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>iptables深入解析：应用层插件篇 | 空虚吧☆</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=UA-44445729-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-44445729-1');
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">空虚吧☆</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-首页"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-存档"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/58705/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yanel">
+      <meta itemprop="description" content="空虚生活的网络寄托">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空虚吧☆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iptables深入解析：应用层插件篇
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-01-29 20:36:00" itemprop="dateCreated datePublished" datetime="2016-01-29T20:36:00+00:00">2016-01-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>来源：linuxDOS</p>
+<p>网址：<a href="http://blog.chinaunix.net/uid-20786208-id-5157053.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-20786208-id-5157053.html</a></p>
+</blockquote>
+<hr>
+<p>对于常规的iptables match或者target扩展肯定不能满足我们的需要，并且默认iptables也只识别到五元组，在深入识别已经很吃力了.显然在实际的需求面前，我们不会止步于此.下面就讲讲iptables功能扩展的插件，支持Layer7.</p>
+<p>在Linux的防火墙体系Netfilter下有一个独立的模块L7 filter 。从字面上看Netfilter是对网络数据的过滤，L7 filter是基于数据流应用层内容的过滤。不过实际上 L7 filter的本职工作不是对数据流进行过滤而是对数据流进行分类。它使用模式匹配算法把进入设备的数据包应用层内容与事先定义好的协议规则进行比对，如果匹配成功就说明这个数据包属于某种协议。</p>
+<p>L7 filter是基于数据流工作的，建立在Netfilter connstrack功能之上。因为一个数据流或者说一个连接的所有数据都是属于同一个应用的，所以L7 filter没有必要对所以的数据包进行模式匹配，而只匹配一个流的前面几个数据包 （比如10个数据包）。当一个流的前面几个数据包包含了某种应用层协议的特征码时 （比如QQ），则这个数据流被L7 filter识别；当前面几个数据包的内容没有包含某种应用层协议的特征码时，则L7 filter放弃继续做模式匹配，这个数据流也就没有办法被识别.</p>
+<p>准备工作，需要下载netfilter-layer7-v2.22和l7-protocols 网址: <a href="http://l7-filter.sourceforge.net/" target="_blank" rel="noopener">http://l7-filter.sourceforge.net/</a></p>
+<p>它的工作和之前注册match流程是一样的 需要用户空间注册match 和内核的注册.</p>
+<p><em>先看看用户空间：</em></p>
+<p>static struct xtables_match layer7 = {</p>
+<p>.family = AF_INET,</p>
+<p>.name = &quot;layer7&quot;,</p>
+<p>.version = XTABLES_VERSION,</p>
+<p>.size = XT_ALIGN(sizeof(struct xt_layer7_info)),</p>
+<p>.userspacesize = XT_ALIGN(sizeof(struct xt_layer7_info)),</p>
+<p>.help = &amp;help,</p>
+<p>.parse = &amp;parse,</p>
+<p>.final_check = &amp;final_check,</p>
+<p>.print = &amp;print,</p>
+<p>.save = &amp;save,</p>
+<p>.extra_opts = opts</p>
+<p>};</p>
+<p><em>再看看opts：</em></p>
+<p>static const struct option opts[] = {</p>
+<p>{ .name = &quot;l7proto&quot;, .has_arg = 1, .val = ‘p’ },</p>
+<p>{ .name = &quot;l7dir&quot;, .has_arg = 1, .val = ‘d’ },</p>
+<p>{ .name = NULL }</p>
+<p>};</p>
+<p><em>主要还是看parse函数：</em></p>
+<p>/<em> Function which parses command options; returns true if it ate an option </em>/</p>
+<p>static int parse(int c, char *<em>argv, int invert, unsigned int </em>flags,</p>
+<p>const void *entry, struct xt_entry_match **match)</p>
+<p>{</p>
+<p>struct xt_layer7_info *layer7info =</p>
+<p>(struct xt_layer7_info _)(_match)-&gt;data;</p>
+<pre><code>switch (c) {
+case &apos;p&apos;:
+    parse_layer7_protocol(argv[optind-1], layer7info);
+    if (invert)
+        layer7info-&amp;gt;invert = true;
+    *flags = 1;
+    break;
+
+case &apos;d&apos;:
+    if(strlen(argv[optind-1]) &amp;gt;= MAX_FN_LEN)
+        xtables_error(PARAMETER_PROBLEM, &amp;quot;directory name too long\n&amp;quot;);
+
+    strncpy(l7dir, argv[optind-1], MAX_FN_LEN);
+
+    *flags = 1;
+    break;
+
+default:
+    return 0;
+}
+
+return 1;
+</code></pre><p>}</p>
+<p>由于它是支持到iptable1.4.3 和内核2.6.28的，如果现在比较新的版本需要自己对应修改部分代码.</p>
+<p>这里需要注册的是struct xt_layer7_info :</p>
+<p>#define MAX_PATTERN_LEN 8192</p>
+<p>#define MAX_PROTOCOL_LEN 256</p>
+<p>struct xt_layer7_info {</p>
+<p>char protocol[MAX_PROTOCOL_LEN];</p>
+<p>char pattern[MAX_PATTERN_LEN];</p>
+<p>u_int8_t invert;</p>
+<p>};</p>
+<p><em>我们拿一个实际的例子说明：</em></p>
+<p>#iptables -t nat -A POSTROUTING -m layer7 –17proto qq -j DROP</p>
+<p>parse函数的作用就是解析参数后，读取特征码pat文件信息匹配，然后赋值给xt_layer7_info</p>
+<p>通过parse_layer7_protocol：默认pat文件放在/etc/l7-protocols ,也可以自己指定.</p>
+<p><em>看qq.pat：</em></p>
+<p>#…</p>
+<p>#that.”</p>
+<p>#So now the pattern allows any of the first three bytes to be 02. Delete</p>
+<p>#one of the “.?” to restore to the old behaviour.</p>
+<p>#pattern written by <a href="http://www.routerclub.com" target="_blank" rel="noopener">www.routerclub.com</a> wsgtrsys</p>
+<p>qq</p>
+<p>^.?.?\x02.+\x03$</p>
+<p>即：protocol =“qq”；pattern=“^.?.?\x02.+\x03$”</p>
+<p>我们可以看到协议识别的信息是一串正则表达式显然不能直接用.</p>
+<p>对于layer7它只支持ip报文，协议只支持tcp、udp和icmp:</p>
+<p>static int can_handle(const struct sk_buff _skb)</p>
+<p>{</p>
+<p>if(!ip_hdr(skb))</p>
+<p>/_ not IP */</p>
+<p>return 0;</p>
+<p>if(ip_hdr(skb)-&gt;protocol != IPPROTO_TCP &amp;&amp;</p>
+<p>ip_hdr(skb)-&gt;protocol != IPPROTO_UDP &amp;&amp;</p>
+<p>ip_hdr(skb)-&gt;protocol != IPPROTO_ICMP)</p>
+<p>return 0;</p>
+<p>return 1;</p>
+<p>}</p>
+<p><em>下面看看内核部分：</em></p>
+<p>static struct xt_match xt_layer7_match[] __read_mostly = {</p>
+<p>{</p>
+<p>.name        = &quot;layer7&quot;,</p>
+<p>.family        = AF_INET,</p>
+<p>.checkentry    = check,</p>
+<p>.match        = match,</p>
+<p>.destroy    = destroy,</p>
+<p>.matchsize    = sizeof(struct xt_layer7_info),</p>
+<p>.me        = THIS_MODULE</p>
+<p>}</p>
+<p><em>内核中的工作就是调用match解析正则表达式.</em></p>
+<p>struct xt_action_param {</p>
+<p>union {</p>
+<p>const struct xt_match *match;</p>
+<p>const struct xt_target *target;</p>
+<p>};</p>
+<p>union {</p>
+<p>const void <em>matchinfo, </em>targinfo;</p>
+<p>};</p>
+<p>const struct net_device <em>in, </em>out;</p>
+<p>int fragoff;</p>
+<p>unsigned int thoff;</p>
+<p>unsigned int hooknum;</p>
+<p>u_int8_t family;</p>
+<p>bool hotdrop;</p>
+<p>};</p>
+<p>1.首先获取用户传的信息：const struct xt_layer7_info * info =par-&gt;matchinfo;</p>
+<p>2.判断是否是支持的协议类型（ip —&gt; tcp/udp/icmp）</p>
+<p>3.获取当前连接ct和master ct信息</p>
+<ol>
+<li><p>判断skb是否线性</p>
+<p>5.找到应用数据的地址:</p>
+</li>
+</ol>
+<p>4． /<em> now that the skb is linearized, it’s safe to set these. </em>/</p>
+<p>5．        app_data = skb-&gt;data + app_data_offset(skb);</p>
+<p>6．        appdatalen = skb_tail_pointer(skb) - app_data;</p>
+<p>6.利用regcomp编译传递的字符串正则表达式到regexp结构体中</p>
+<p>#define NSUBEXP 10</p>
+<p>typedef struct regexp {</p>
+<p>char *startp[NSUBEXP];</p>
+<p>char _endp[NSUBEXP];</p>
+<p>char regstart;</p>
+<p>/_ Internal use only. _/</p>
+<p>char reganch;</p>
+<p>/_ Internal use only. */</p>
+<p>char _regmust;</p>
+<p>/_ Internal use only. _/</p>
+<p>int regmlen;</p>
+<p>/_ Internal use only. _/</p>
+<p>char program[1];</p>
+<p>/_ Unwarranted chumminess with compiler. */</p>
+<p>} regexp;</p>
+<p>7.利用total_acct_packets计算是否为第一个来的报文，如果是申请app_data空间给ct里的layer7字段</p>
+<p>8.判断skb-&gt;cb 是否为null，为空则附加data到主ct的layer7.app_data，如果有下个报文处理则追加data.(追加的条件是什么呢？) ，（当skb附加data后会设置skb-&gt;cb[]=1)</p>
+<p>9.利用regexec判断匹配</p>
+<p>10.设置skb-&gt;cb[]=1;然后返回</p>
+<p><em>这里我们特别说明下第三个：</em></p>
+<p>关于ct-&gt;master的问题 这里涉及expt 即期望连接的问题，稍微回顾一下，在新建一个ct的时候会查询expect hlist看看是否是某一个ct期望的连接.</p>
+<p>exp = nf_ct_find_expectation(net, zone, tuple);</p>
+<p>if (exp) {</p>
+<p>pr_debug(&quot;conntrack: expectation arrives ct=%p exp=%p\n&quot;,</p>
+<p>ct, exp);</p>
+<p>/<em> Welcome, Mr. Bond. We’ve been expecting you… </em>/</p>
+<p>__set_bit(IPS_EXPECTED_BIT, &amp;ct-&gt;status);</p>
+<p>ct-&gt;master = exp-&gt;master;</p>
+<p><em>还有一个之前说的只匹配前几个包的问题(算是一个隐式bug)：</em></p>
+<p>/<em> if we’ve classified it or seen too many packets </em>/</p>
+<p>if(total_acct_packets(master_conntrack) &gt; num_packets ||</p>
+<p>master_conntrack-&gt;layer7.app_proto) {</p>
+<p>具体的编译和安装测试这里不再说明.当然我们会发现这个layer7并不完美，还有许多问题需要去解决.</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/技术/" rel="tag"># 技术</a>
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/iptables/" rel="tag"># iptables</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/posts/53348/" rel="next" title="博客迁移">
+                <i class="fa fa-chevron-left"></i> 博客迁移
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/posts/6577/" rel="prev" title="11个让你吃惊的 Linux 终端命令">
+                11个让你吃惊的 Linux 终端命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/header.jpg" alt="Yanel">
+            
+              <p class="site-author-name" itemprop="name">Yanel</p>
+              <p class="site-description motion-element" itemprop="description">空虚生活的网络寄托</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">137</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">52</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/yanel85" title="GitHub &rarr; https://github.com/yanel85" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://twitter.com/yanelccc" title="Twitter &rarr; https://twitter.com/yanelccc" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.facebook.com/Yanel85" title="Facebook &rarr; https://www.facebook.com/Yanel85" rel="noopener" target="_blank"><i class="fa fa-fw fa-facebook"></i>Facebook</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://instagram.com/yanelccc" title="Instagram &rarr; https://instagram.com/yanelccc" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2006 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yanel</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+      }
+      else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('复制');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

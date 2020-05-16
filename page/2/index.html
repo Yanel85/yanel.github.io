@@ -291,585 +291,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/6577/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yanel">
-      <meta itemprop="description" content="空虚生活的网络寄托">
-      <meta itemprop="image" content="/images/header.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="空虚吧☆">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/posts/6577/" class="post-title-link" itemprop="url">11个让你吃惊的 Linux 终端命令</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2016-01-29 20:40:00" itemprop="dateCreated datePublished" datetime="2016-01-29T20:40:00+00:00">2016-01-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="1-命令行日常系快捷键"><a href="#1-命令行日常系快捷键" class="headerlink" title="1. 命令行日常系快捷键"></a>1. 命令行日常系快捷键</h3><p>如下的快捷方式非常有用，能够极大的提升你的工作效率：</p>
-<p>CTRL + U - 剪切光标前的内容</p>
-<p>CTRL + K - 剪切光标至行末的内容</p>
-<p>CTRL + Y - 粘贴</p>
-<p>CTRL + E - 移动光标到行末</p>
-<p>CTRL + A - 移动光标到行首</p>
-<p>ALT + F - 跳向下一个空格</p>
-<p>ALT + B - 跳回上一个空格</p>
-<p>ALT + Backspace - 删除前一个单词</p>
-<p>CTRL + W - 剪切光标前一个单词</p>
-<p>Shift + Insert - 向终端内粘贴文本</p>
-<p><em>那么为了让上述内容更易理解来看下面的这行命令。</em></p>
-<p><code>sudo apt-get intall programname</code></p>
-<p>如你所见，命令中存在拼写错误，为了正常执行需要把“intall”替换成“install”。</p>
-<p>想象现在光标正在行末，我们有很多的方法将她退回单词install并替换它。</p>
-<p>我可以按两次ALT+B这样光标就会在如下的位置（这里用指代光标的位置）。</p>
-<p>sudo apt-get^intall programname</p>
-<p>现在你可以按两下方向键并将“s”插入到install中去了。</p>
-<p>如果你想将浏览器中的文本复制到终端，可以使用快捷键&quot;shift + insert&quot;。</p>
-<h3 id="2-SUDO"><a href="#2-SUDO" class="headerlink" title="2. SUDO !!"></a>2. SUDO !!</h3><p>如果你还不知道这个命令，我觉得你应该好好感谢我，因为如果你不知道的话，那每次你在输入长串命令后看到“permission denied”后一定会痛苦不堪。</p>
-<p>sudo !!</p>
-<p>如何使用sudo !!？很简单。试想你刚输入了如下命令：</p>
-<p>apt-get install ranger</p>
-<p>一定会出现“Permission denied”，除非你已经登录了足够高权限的账户。</p>
-<p>sudo !! 就会用 sudo 的形式运行上一条命令。所以上一条命令就变成了这样：</p>
-<p>sudo apt-get install ranger</p>
-<p>如果你不知道什么是sudo，戳这里。</p>
-<h3 id="3-暂停并在后台运行命令"><a href="#3-暂停并在后台运行命令" class="headerlink" title="3. 暂停并在后台运行命令"></a>3. 暂停并在后台运行命令</h3><p>我曾经写过一篇如何在终端后台运行命令的指南。</p>
-<p>CTRL + Z - 暂停应用程序</p>
-<p>fg - 重新将程序唤到前台</p>
-<p>如何使用这个技巧呢?</p>
-<p>试想你正用nano编辑一个文件：</p>
-<p>sudo nano abc.txt</p>
-<p>文件编辑到一半你意识到你需要马上在终端输入些命令，但是nano在前台运行让你不能输入。</p>
-<p>你可能觉得唯一的方法就是保存文件，退出 nano，运行命令以后在重新打开nano。</p>
-<p>其实你只要按CTRL + Z，前台的命令就会暂停，画面就切回到命令行了。然后你就能运行你想要运行命令，等命令运行完后在终端窗口输入“fg”就可以回到先前暂停的任务。</p>
-<p>有一个尝试非常有趣就是用nano打开文件，输入一些东西然后暂停会话。再用nano打开另一个文件，输入一些什么后再暂停会话。如果你输入“fg”你将回到第二个用nano打开的文件。只有退出nano再输入“fg”，你才会回到第一个用nano打开的文件。</p>
-<h3 id="4-使用nohup在登出SSH会话后仍运行命令"><a href="#4-使用nohup在登出SSH会话后仍运行命令" class="headerlink" title="4. 使用nohup在登出SSH会话后仍运行命令"></a>4. 使用nohup在登出SSH会话后仍运行命令</h3><p>如果你用ssh登录别的机器时，nohup命令真的非常有用。</p>
-<p>那么怎么使用nohup呢？</p>
-<p>想象一下你使用ssh远程登录到另一台电脑上，你运行了一条非常耗时的命令然后退出了ssh会话，不过命令仍在执行。而nohup可以将这一场景变成现实。</p>
-<p>举个例子，因为测试的需要，我用我的树莓派来下载发行版。我绝对不会给我的树莓派外接显示器、键盘或鼠标。</p>
-<p>一般我总是用SSH从笔记本电脑连接到树莓派。如果我在不用nohup的情况下使用树莓派下载大型文件，那我就必须等待到下载完成后，才能登出ssh会话关掉笔记本。可如果是这样，那我为什么要使用树莓派下文件呢？</p>
-<p>使用nohup的方法也很简单，只需如下例中在nohup后输入要执行的命令即可：</p>
-<p>nohup wget <a href="http://mirror.is.co.za/mirrors/linuxmint.com/iso//stable/17.1/linuxmint-17.1-cinnamon-64bit.iso" target="_blank" rel="noopener">http://mirror.is.co.za/mirrors/linuxmint.com/iso//stable/17.1/linuxmint-17.1-cinnamon-64bit.iso</a> &amp;</p>
-<h3 id="5-‘在’特定的时间运行Linux命令"><a href="#5-‘在’特定的时间运行Linux命令" class="headerlink" title="5. ‘在’特定的时间运行Linux命令"></a>5. ‘在’特定的时间运行Linux命令</h3><p>‘nohup’命令在你用SSH连接到服务器，并在上面保持执行SSH登出前任务的时候十分有用。</p>
-<p>想一下如果你需要在特定的时间执行相同的命令，这种情况该怎么办呢？</p>
-<p>命令‘at’就能妥善解决这一情况。以下是‘at’使用示例。</p>
-<p>at 10:38 PM Fri</p>
-<p>at&gt; cowsay ‘hello’</p>
-<p>at&gt; CTRL + D</p>
-<p>上面的命令能在周五下午10时38分运行程序cowsay。</p>
-<p>使用的语法就是‘at’后追加日期时间。当at&gt;提示符出现后就可以输入你想在那个时间运行的命令了。</p>
-<p>CTRL + D 返回终端。</p>
-<p>还有许多日期和时间的格式，都需要你好好翻一翻‘at’的man手册来找到更多的使用方式。</p>
-<h3 id="6-Man手册"><a href="#6-Man手册" class="headerlink" title="6. Man手册"></a>6. Man手册</h3><p>Man手册会为你列出命令和参数的使用大纲，教你如何使用她们。Man手册看起来沉闷呆板。（我思忖她们也不是被设计来娱乐我们的）。</p>
-<p>不过这不代表你不能做些什么来使她们变得漂亮些。</p>
-<p>export PAGER=most</p>
-<p>你需要安装 ‘most’；她会使你的你的man手册的色彩更加绚丽。</p>
-<p>你可以用以下命令给man手册设定指定的行长：</p>
-<p>export MANWIDTH=80</p>
-<p>最后，如果你有一个可用的浏览器，你可以使用-H在默认浏览器中打开任意的man页。</p>
-<p>man -H</p>
-<p>注意啦，以上的命令只有在你将默认的浏览器设置到环境变量$BROWSER中了之后才效果哟。</p>
-<h3 id="7-使用htop查看和管理进程"><a href="#7-使用htop查看和管理进程" class="headerlink" title="7. 使用htop查看和管理进程"></a>7. 使用htop查看和管理进程</h3><p>你用哪个命令找出电脑上正在运行的进程的呢？我敢打赌是‘ps’并在其后加不同的参数来得到你所想要的不同输出。</p>
-<p>安装‘htop’吧！绝对让你相见恨晚。</p>
-<p>htop在终端中将进程以列表的方式呈现，有点类似于Windows中的任务管理器。你可以使用功能键的组合来切换排列的方式和展示出来的项。你也可以在htop中直接杀死进程。</p>
-<p>在终端中简单的输入htop即可运行。</p>
-<p>htop</p>
-<h3 id="8-使用ranger浏览文件系统"><a href="#8-使用ranger浏览文件系统" class="headerlink" title="8. 使用ranger浏览文件系统"></a>8. 使用ranger浏览文件系统</h3><p>如果说htop是命令行进程控制的好帮手，那么ranger就是命令行浏览文件系统的好帮手。</p>
-<p>你在用之前可能需要先安装，不过一旦安装了以后就可以在命令行输入以下命令启动她：</p>
-<p>ranger</p>
-<p>在命令行窗口中ranger和一些别的文件管理器很像，但是相比上下结构布局，她是左右结构的，这意味着你按左方向键你将前进到上一个文件夹，而右方向键则会切换到下一个。</p>
-<p>在使用前ranger的man手册还是值得一读的，这样你就可以用快捷键操作ranger了。</p>
-<h3 id="9-取消关机"><a href="#9-取消关机" class="headerlink" title="9. 取消关机"></a>9. 取消关机</h3><p>无论是在命令行还是图形用户界面关机后，才发现自己不是真的想要关机。</p>
-<p>shutdown -c</p>
-<p>需要注意的是，如果关机已经开始则有可能来不及停止关机。</p>
-<p>以下是另一个可以尝试命令：</p>
-<p>pkill shutdown</p>
-<h3 id="10-杀死挂起进程的简单方法"><a href="#10-杀死挂起进程的简单方法" class="headerlink" title="10. 杀死挂起进程的简单方法"></a>10. 杀死挂起进程的简单方法</h3><p>想象一下，你正在运行的应用程序不明原因的僵死了。</p>
-<p>你可以使用‘ps -ef’来找到该进程后杀掉或者使用‘htop’。</p>
-<p>有一个更快、更容易的命令叫做xkill。</p>
-<p>简单的在终端中输入以下命令并在窗口中点击你想杀死的应用程序。</p>
-<p>xkill</p>
-<p>那如果整个系统挂掉了怎么办呢？</p>
-<p>按住键盘上的‘alt’和‘sysrq’不放，然后慢慢输入以下键：</p>
-<blockquote>
-<p>REISUB</p>
-</blockquote>
-<p>这样不按电源键你的计算机也能重启了。</p>
-<h3 id="11-下载Youtube视频"><a href="#11-下载Youtube视频" class="headerlink" title="11. 下载Youtube视频"></a>11. 下载Youtube视频</h3><p>一般来说我们大多数人都喜欢看Youtube的视频，也会通过钟爱的播放器播放Youtube的流媒体。</p>
-<p>如果你需要离线一段时间（比如：从苏格兰南部坐飞机到英格兰南部旅游的这段时间）那么你可能希望下载一些视频到存储设备中，到闲暇时观看。</p>
-<p>你所要做的就是从包管理器中安装youtube-dl。</p>
-<p>你可以用以下命令使用youtube-dl：</p>
-<blockquote>
-<p>youtube-dl url-to-video</p>
-</blockquote>
-<p>你可以在Youtubu视频页面点击分享链接得到视频的url。只要简单的复制链接在粘帖到命令行就行了（要用shift + insert快捷键哟）。</p>
-<p>总结</p>
-<p>希望你在这篇文章中得到帮助，并且在这11条中找到至少一条让你惊叹“原来可以这样”的技巧。</p>
-<blockquote>
-<p>原文出处：linux.about</p>
-<p>译文出处：LCTT</p>
-<p>译文链接：<a href="https://linux.cn/article-5438-1.html" target="_blank" rel="noopener">https://linux.cn/article-5438-1.html</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/58705/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yanel">
-      <meta itemprop="description" content="空虚生活的网络寄托">
-      <meta itemprop="image" content="/images/header.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="空虚吧☆">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/posts/58705/" class="post-title-link" itemprop="url">iptables深入解析：应用层插件篇</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2016-01-29 20:36:00" itemprop="dateCreated datePublished" datetime="2016-01-29T20:36:00+00:00">2016-01-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>来源：linuxDOS</p>
-<p>网址：<a href="http://blog.chinaunix.net/uid-20786208-id-5157053.html" target="_blank" rel="noopener">http://blog.chinaunix.net/uid-20786208-id-5157053.html</a></p>
-</blockquote>
-<hr>
-<p>对于常规的iptables match或者target扩展肯定不能满足我们的需要，并且默认iptables也只识别到五元组，在深入识别已经很吃力了.显然在实际的需求面前，我们不会止步于此.下面就讲讲iptables功能扩展的插件，支持Layer7.</p>
-<p>在Linux的防火墙体系Netfilter下有一个独立的模块L7 filter 。从字面上看Netfilter是对网络数据的过滤，L7 filter是基于数据流应用层内容的过滤。不过实际上 L7 filter的本职工作不是对数据流进行过滤而是对数据流进行分类。它使用模式匹配算法把进入设备的数据包应用层内容与事先定义好的协议规则进行比对，如果匹配成功就说明这个数据包属于某种协议。</p>
-<p>L7 filter是基于数据流工作的，建立在Netfilter connstrack功能之上。因为一个数据流或者说一个连接的所有数据都是属于同一个应用的，所以L7 filter没有必要对所以的数据包进行模式匹配，而只匹配一个流的前面几个数据包 （比如10个数据包）。当一个流的前面几个数据包包含了某种应用层协议的特征码时 （比如QQ），则这个数据流被L7 filter识别；当前面几个数据包的内容没有包含某种应用层协议的特征码时，则L7 filter放弃继续做模式匹配，这个数据流也就没有办法被识别.</p>
-<p>准备工作，需要下载netfilter-layer7-v2.22和l7-protocols 网址: <a href="http://l7-filter.sourceforge.net/" target="_blank" rel="noopener">http://l7-filter.sourceforge.net/</a></p>
-<p>它的工作和之前注册match流程是一样的 需要用户空间注册match 和内核的注册.</p>
-<p><em>先看看用户空间：</em></p>
-<p>static struct xtables_match layer7 = {</p>
-<p>.family = AF_INET,</p>
-<p>.name = &quot;layer7&quot;,</p>
-<p>.version = XTABLES_VERSION,</p>
-<p>.size = XT_ALIGN(sizeof(struct xt_layer7_info)),</p>
-<p>.userspacesize = XT_ALIGN(sizeof(struct xt_layer7_info)),</p>
-<p>.help = &amp;help,</p>
-<p>.parse = &amp;parse,</p>
-<p>.final_check = &amp;final_check,</p>
-<p>.print = &amp;print,</p>
-<p>.save = &amp;save,</p>
-<p>.extra_opts = opts</p>
-<p>};</p>
-<p><em>再看看opts：</em></p>
-<p>static const struct option opts[] = {</p>
-<p>{ .name = &quot;l7proto&quot;, .has_arg = 1, .val = ‘p’ },</p>
-<p>{ .name = &quot;l7dir&quot;, .has_arg = 1, .val = ‘d’ },</p>
-<p>{ .name = NULL }</p>
-<p>};</p>
-<p><em>主要还是看parse函数：</em></p>
-<p>/<em> Function which parses command options; returns true if it ate an option </em>/</p>
-<p>static int parse(int c, char *<em>argv, int invert, unsigned int </em>flags,</p>
-<p>const void *entry, struct xt_entry_match **match)</p>
-<p>{</p>
-<p>struct xt_layer7_info *layer7info =</p>
-<p>(struct xt_layer7_info _)(_match)-&gt;data;</p>
-<pre><code>switch (c) {
-case &apos;p&apos;:
-    parse_layer7_protocol(argv[optind-1], layer7info);
-    if (invert)
-        layer7info-&amp;gt;invert = true;
-    *flags = 1;
-    break;
-
-case &apos;d&apos;:
-    if(strlen(argv[optind-1]) &amp;gt;= MAX_FN_LEN)
-        xtables_error(PARAMETER_PROBLEM, &amp;quot;directory name too long\n&amp;quot;);
-
-    strncpy(l7dir, argv[optind-1], MAX_FN_LEN);
-
-    *flags = 1;
-    break;
-
-default:
-    return 0;
-}
-
-return 1;
-</code></pre><p>}</p>
-<p>由于它是支持到iptable1.4.3 和内核2.6.28的，如果现在比较新的版本需要自己对应修改部分代码.</p>
-<p>这里需要注册的是struct xt_layer7_info :</p>
-<p>#define MAX_PATTERN_LEN 8192</p>
-<p>#define MAX_PROTOCOL_LEN 256</p>
-<p>struct xt_layer7_info {</p>
-<p>char protocol[MAX_PROTOCOL_LEN];</p>
-<p>char pattern[MAX_PATTERN_LEN];</p>
-<p>u_int8_t invert;</p>
-<p>};</p>
-<p><em>我们拿一个实际的例子说明：</em></p>
-<p>#iptables -t nat -A POSTROUTING -m layer7 –17proto qq -j DROP</p>
-<p>parse函数的作用就是解析参数后，读取特征码pat文件信息匹配，然后赋值给xt_layer7_info</p>
-<p>通过parse_layer7_protocol：默认pat文件放在/etc/l7-protocols ,也可以自己指定.</p>
-<p><em>看qq.pat：</em></p>
-<p>#…</p>
-<p>#that.”</p>
-<p>#So now the pattern allows any of the first three bytes to be 02. Delete</p>
-<p>#one of the “.?” to restore to the old behaviour.</p>
-<p>#pattern written by <a href="http://www.routerclub.com" target="_blank" rel="noopener">www.routerclub.com</a> wsgtrsys</p>
-<p>qq</p>
-<p>^.?.?\x02.+\x03$</p>
-<p>即：protocol =“qq”；pattern=“^.?.?\x02.+\x03$”</p>
-<p>我们可以看到协议识别的信息是一串正则表达式显然不能直接用.</p>
-<p>对于layer7它只支持ip报文，协议只支持tcp、udp和icmp:</p>
-<p>static int can_handle(const struct sk_buff _skb)</p>
-<p>{</p>
-<p>if(!ip_hdr(skb))</p>
-<p>/_ not IP */</p>
-<p>return 0;</p>
-<p>if(ip_hdr(skb)-&gt;protocol != IPPROTO_TCP &amp;&amp;</p>
-<p>ip_hdr(skb)-&gt;protocol != IPPROTO_UDP &amp;&amp;</p>
-<p>ip_hdr(skb)-&gt;protocol != IPPROTO_ICMP)</p>
-<p>return 0;</p>
-<p>return 1;</p>
-<p>}</p>
-<p><em>下面看看内核部分：</em></p>
-<p>static struct xt_match xt_layer7_match[] __read_mostly = {</p>
-<p>{</p>
-<p>.name        = &quot;layer7&quot;,</p>
-<p>.family        = AF_INET,</p>
-<p>.checkentry    = check,</p>
-<p>.match        = match,</p>
-<p>.destroy    = destroy,</p>
-<p>.matchsize    = sizeof(struct xt_layer7_info),</p>
-<p>.me        = THIS_MODULE</p>
-<p>}</p>
-<p><em>内核中的工作就是调用match解析正则表达式.</em></p>
-<p>struct xt_action_param {</p>
-<p>union {</p>
-<p>const struct xt_match *match;</p>
-<p>const struct xt_target *target;</p>
-<p>};</p>
-<p>union {</p>
-<p>const void <em>matchinfo, </em>targinfo;</p>
-<p>};</p>
-<p>const struct net_device <em>in, </em>out;</p>
-<p>int fragoff;</p>
-<p>unsigned int thoff;</p>
-<p>unsigned int hooknum;</p>
-<p>u_int8_t family;</p>
-<p>bool hotdrop;</p>
-<p>};</p>
-<p>1.首先获取用户传的信息：const struct xt_layer7_info * info =par-&gt;matchinfo;</p>
-<p>2.判断是否是支持的协议类型（ip —&gt; tcp/udp/icmp）</p>
-<p>3.获取当前连接ct和master ct信息</p>
-<ol>
-<li><p>判断skb是否线性</p>
-<p>5.找到应用数据的地址:</p>
-</li>
-</ol>
-<p>4． /<em> now that the skb is linearized, it’s safe to set these. </em>/</p>
-<p>5．        app_data = skb-&gt;data + app_data_offset(skb);</p>
-<p>6．        appdatalen = skb_tail_pointer(skb) - app_data;</p>
-<p>6.利用regcomp编译传递的字符串正则表达式到regexp结构体中</p>
-<p>#define NSUBEXP 10</p>
-<p>typedef struct regexp {</p>
-<p>char *startp[NSUBEXP];</p>
-<p>char _endp[NSUBEXP];</p>
-<p>char regstart;</p>
-<p>/_ Internal use only. _/</p>
-<p>char reganch;</p>
-<p>/_ Internal use only. */</p>
-<p>char _regmust;</p>
-<p>/_ Internal use only. _/</p>
-<p>int regmlen;</p>
-<p>/_ Internal use only. _/</p>
-<p>char program[1];</p>
-<p>/_ Unwarranted chumminess with compiler. */</p>
-<p>} regexp;</p>
-<p>7.利用total_acct_packets计算是否为第一个来的报文，如果是申请app_data空间给ct里的layer7字段</p>
-<p>8.判断skb-&gt;cb 是否为null，为空则附加data到主ct的layer7.app_data，如果有下个报文处理则追加data.(追加的条件是什么呢？) ，（当skb附加data后会设置skb-&gt;cb[]=1)</p>
-<p>9.利用regexec判断匹配</p>
-<p>10.设置skb-&gt;cb[]=1;然后返回</p>
-<p><em>这里我们特别说明下第三个：</em></p>
-<p>关于ct-&gt;master的问题 这里涉及expt 即期望连接的问题，稍微回顾一下，在新建一个ct的时候会查询expect hlist看看是否是某一个ct期望的连接.</p>
-<p>exp = nf_ct_find_expectation(net, zone, tuple);</p>
-<p>if (exp) {</p>
-<p>pr_debug(&quot;conntrack: expectation arrives ct=%p exp=%p\n&quot;,</p>
-<p>ct, exp);</p>
-<p>/<em> Welcome, Mr. Bond. We’ve been expecting you… </em>/</p>
-<p>__set_bit(IPS_EXPECTED_BIT, &amp;ct-&gt;status);</p>
-<p>ct-&gt;master = exp-&gt;master;</p>
-<p><em>还有一个之前说的只匹配前几个包的问题(算是一个隐式bug)：</em></p>
-<p>/<em> if we’ve classified it or seen too many packets </em>/</p>
-<p>if(total_acct_packets(master_conntrack) &gt; num_packets ||</p>
-<p>master_conntrack-&gt;layer7.app_proto) {</p>
-<p>具体的编译和安装测试这里不再说明.当然我们会发现这个layer7并不完美，还有许多问题需要去解决.</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/53348/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -915,7 +336,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2016-01-26 23:30:00" itemprop="dateCreated datePublished" datetime="2016-01-26T23:30:00+00:00">2016-01-26</time>
+              <time title="创建时间：2016-01-26 23:30:00" itemprop="dateCreated datePublished" datetime="2016-01-26T23:30:00+08:00">2016-01-26</time>
             
 
             
@@ -932,7 +353,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -1072,7 +493,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2015-12-27 14:58:00" itemprop="dateCreated datePublished" datetime="2015-12-27T14:58:00+00:00">2015-12-27</time>
+              <time title="创建时间：2015-12-27 14:58:00" itemprop="dateCreated datePublished" datetime="2015-12-27T14:58:00+08:00">2015-12-27</time>
             
 
             
@@ -1089,7 +510,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -1256,7 +677,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2015-10-11 01:31:00" itemprop="dateCreated datePublished" datetime="2015-10-11T01:31:00+00:00">2015-10-11</time>
+              <time title="创建时间：2015-10-11 01:31:00" itemprop="dateCreated datePublished" datetime="2015-10-11T01:31:00+08:00">2015-10-11</time>
             
 
             
@@ -1273,7 +694,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -1411,7 +832,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2015-06-18 13:47:00" itemprop="dateCreated datePublished" datetime="2015-06-18T13:47:00+00:00">2015-06-18</time>
+              <time title="创建时间：2015-06-18 13:47:00" itemprop="dateCreated datePublished" datetime="2015-06-18T13:47:00+08:00">2015-06-18</time>
             
 
             
@@ -1428,7 +849,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -1566,7 +987,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2015-04-01 10:53:07" itemprop="dateCreated datePublished" datetime="2015-04-01T10:53:07+00:00">2015-04-01</time>
+              <time title="创建时间：2015-04-01 10:53:07" itemprop="dateCreated datePublished" datetime="2015-04-01T10:53:07+08:00">2015-04-01</time>
             
 
             
@@ -1583,7 +1004,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -1623,164 +1044,6 @@ return 1;
 <p>在我写下待更这个两个字已经过去十天了，很少有这样的情况，我会写下待更这两个字，因为每个博客的周年庆我会为博客做点什么，本来这次是要给博客换个typecho系统的，但是可以看出我确实很忙了，1号写下这两个字就去了广州，谈了个项目，然后去深圳玩了三天，回来又到新单位上了整整一周的班，之所以说上了整整一周的班，是因为我真的很久没这么认真地上班过了，事情很多，本来打算测试在GAE上部署typecho,结果昨天才开始弄，发现安装完成后进不来前台，也打不开后台，不清楚什么原因，网上也找不到解决方法，再说GAE的Mysql数据库好像收费还有点贵，所以就放弃了，感觉现在的这个老旧的博客系统能够用就行，只是祈望google不要哪天把GAE给关闭就行。</p>
 <p>博客迎来了第五个年头，去年来我的博客更新很少了，主要是很难静下心来写一段文字，如今的微信微博已经把时间碎片化，也把知识碎片化了，所以宁愿在微博和微信朋友圈用一句话发发牢骚，也不愿意沉下心来慢慢写，今年的接下来也许会一直很慢，没有时间来顾及些许事情，但是这样的忙，我希望能实现自我的价值，使自己得到别人的认可，毕竟马上三十岁的人了，在任何领域没有点建树是会被人耻笑的，好吧，加油吧！！不为功名，不为金钱，只为了证明下自己，我能！</p>
 
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/17271/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yanel">
-      <meta itemprop="description" content="空虚生活的网络寄托">
-      <meta itemprop="image" content="/images/header.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="空虚吧☆">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/posts/17271/" class="post-title-link" itemprop="url">iptables的基本语法格式</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2015-02-20 06:39:39" itemprop="dateCreated datePublished" datetime="2015-02-20T06:39:39+00:00">2015-02-20</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <div><span style="font-size: small;">iptables [-t 表名] 命令选项 ［链名］ ［条件匹配］ ［-j 目标动作或跳转］</span></div><br><div><span style="font-size: small;">说明：表名、链名用于指定iptables命令所操作的表和链，命令选项用于指定管理iptables规则的方式（比如：插入、增加、删除、查看等；条件匹配用于指定对符合什么样条件的数据包进行处理；目标动作或跳转用于指定数据包的处理方式（比如允许通过、拒绝、丢弃、跳转（Jump）给其它链处理。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><br><br><em>   <strong><span style="font-size: medium;">iptables命令的管理控制选项</span></strong><br></em></div><br><div><span style="font-size: small;">-A 在指定链的末尾添加（append）一条新的规则</span></div><br><div><span style="font-size: small;">-D 删除（delete）指定链中的某一条规则，可以按规则序号和内容删除</span></div><br><div><span style="font-size: small;">-I 在指定链中插入（insert）一条新的规则，默认在第一行添加</span></div><br><div><span style="font-size: small;">-R 修改、替换（replace）指定链中的某一条规则，可以按规则序号和内容替换</span></div><br><div><span style="font-size: small;">-L 列出（list）指定链中所有的规则进行查看</span></div><br><div><span style="font-size: small;">-E 重命名用户定义的链，不改变链本身</span></div><br><div><span style="font-size: small;">-F 清空（flush）</span></div><br><div><span style="font-size: small;">-N 新建（new-chain）一条用户自己定义的规则链</span></div><br><div><span style="font-size: small;">-X 删除指定表中用户自定义的规则链（delete-chain）</span></div><br><div><span style="font-size: small;">-P 设置指定链的默认策略（policy）</span></div><br><div><span style="font-size: small;">-Z 将所有表的所有链的字节和数据包计数器清零</span></div><br><div><span style="font-size: small;">-n 使用数字形式（numeric）显示输出结果</span></div><br><div><span style="font-size: small;">-v 查看规则表详细信息（verbose）的信息</span></div><br><div><span style="font-size: small;">-V 查看版本(version)</span></div><br><div><span style="font-size: small;">-h 获取帮助（help）</span></div><br><div><span style="font-size: small;"> </span></div><br><div>
-
-   <strong><span style="font-size: medium;">防火墙处理数据包的四种方式</span></strong><br></div><br><div><span style="font-size: small;">ACCEPT 允许数据包通过</span></div><br><div><span style="font-size: small;">DROP 直接丢弃数据包，不给任何回应信息</span></div><br><div><span style="font-size: small;">REJECT 拒绝数据包通过，必要时会给数据发送端一个响应的信息。</span></div><br><div><span style="font-size: small;">LOG在/var/log/messages文件中记录日志信息，然后将数据包传递给下一条规则</span></div><br><div><span style="font-size: small;"> </span></div><br><div><br><br><em>   <strong><span style="font-size: medium;">iptables防火墙规则的保存与恢复</span></strong><br></em></div><br><div><span style="font-size: small;">iptables-save把规则保存到文件中，再由目录rc.d下的脚本（/etc/rc.d/init.d/iptables）自动装载</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">使用命令iptables-save来保存规则。一般用</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables-save &gt; /etc/sysconfig/iptables</span></div><br><div><span style="font-size: small;">生成保存规则的文件 /etc/sysconfig/iptables，</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">也可以用</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">service iptables save</span></div><br><div><span style="font-size: small;">它能把规则自动保存在/etc/sysconfig/iptables中。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">当计算机启动时，rc.d下的脚本将用命令iptables-restore调用这个文件，从而就自动恢复了规则。</span></div><br><div><span style="font-size: small;"> </span></div><br><div>
-
-   <strong><span style="font-size: medium;">删除INPUT链的第一条规则</span></strong><br></div><br><div><span style="font-size: small;">iptables -D INPUT 1</span></div><br><div><br><br>*   <strong><span style="font-size: medium;">iptables防火墙常用的策略</span></strong><br></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">1.拒绝进入防火墙的所有ICMP协议数据包</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -I INPUT -p icmp -j REJECT</span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">2.允许防火墙转发除ICMP协议以外的所有数据包</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A FORWARD -p ! icmp -j ACCEPT</span></div><br><div><span style="font-size: small;">说明：使用“！”可以将条件取反。</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">3.拒绝转发来自192.168.1.10主机的数据，允许转发来自192.168.0.0/24网段的数据</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A FORWARD -s 192.168.1.11 -j REJECT</span></div><br><div><span style="font-size: small;">iptables -A FORWARD -s 192.168.0.0/24 -j ACCEPT</span></div><br><div><span style="font-size: small;">说明：注意要把拒绝的放在前面不然就不起作用了啊。</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">4.丢弃从外网接口（eth1）进入防火墙本机的源地址为私网地址的数据包</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A INPUT -i eth1 -s 192.168.0.0/16 -j DROP</span></div><br><div><span style="font-size: small;">iptables -A INPUT -i eth1 -s 172.16.0.0/12 -j DROP</span></div><br><div><span style="font-size: small;">iptables -A INPUT -i eth1 -s 10.0.0.0/8 -j DROP</span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">5.封堵网段（192.168.1.0/24），两小时后解封。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">[root@server ~]# iptables -I INPUT -s 10.20.30.0/24 -j DROP</span></div><br><div><span style="font-size: small;">[root@server ~]# iptables -I FORWARD -s 10.20.30.0/24 -j DROP</span></div><br><div><span style="font-size: small;">[root@server ~]# at now +2 hours</span></div><br><div><span style="font-size: small;">at&gt; iptables -D INPUT 1</span></div><br><div><span style="font-size: small;">at&gt; iptables -D FORWARD 1</span></div><br><div><span style="font-size: small;">说明：这个策略咱们借助crond计划任务来完成，就再好不过了。</span></div><br><div><span style="font-size: small;">[1]+ Stopped at now +2 hours</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">6.只允许管理员从202.13.0.0/16网段使用SSH远程登录防火墙主机。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A INPUT -p tcp –dport 22 -s 202.13.0.0/16 -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -A INPUT -p tcp –dport 22 -j DROP</span></div><br><div><span style="font-size: small;">说明：这个用法比较适合对设备进行远程管理时使用，比如位于分公司中的SQL服务器需要被总公司的管理员管理时。</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">7.允许本机开放从TCP端口20-1024提供的应用服务。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A INPUT -p tcp –dport 20:1024 -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -A OUTPUT -p tcp –sport 20:1024 -j ACCEPT</span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">8.允许转发来自192.168.0.0/24局域网段的DNS解析请求数据包。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A FORWARD -s 192.168.0.0/24 -p udp –dport 53 -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -A FORWARD -d 192.168.0.0/24 -p udp –sport 53 -j ACCEPT</span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">9.禁止其他主机ping防火墙主机，但是允许从防火墙上ping其他主机</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -I INPUT -p icmp –icmp-type Echo-Request -j DROP</span></div><br><div><span style="font-size: small;">iptables -I INPUT -p icmp –icmp-type Echo-Reply -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -I INPUT -p icmp –icmp-type destination-Unreachable -j ACCEPT</span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">10.禁止转发来自MAC地址为00：0C：29：27：55：3F的和主机的数据包</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A FORWARD -m mac –mac-source 00:0c:29:27:55:3F -j DROP</span></div><br><div><span style="font-size: small;">说明：iptables中使用“-m 模块关键字”的形式调用显示匹配。咱们这里用“-m mac –mac-source”来表示数据包的源MAC地址。</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">11.允许防火墙本机对外开放TCP端口20、21、25、110以及被动模式FTP端口1250-1280</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A INPUT -p tcp -m multiport –dport 20,21,25,110,1250:1280 -j ACCEPT</span></div><br><div><span style="font-size: small;">说明：这里用“-m multiport –dport”来指定目的端口及范围</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">12.禁止转发源IP地址为192.168.1.20-192.168.1.99的TCP数据包。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A FORWARD -p tcp -m iprange –src-range 192.168.1.20-192.168.1.99 -j DROP</span></div><br><div><span style="font-size: small;">说明：此处用“-m –iprange –src-range”指定IP范围。</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">13.禁止转发与正常TCP连接无关的非—syn请求数据包。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A FORWARD -m state –state NEW -p tcp ! –syn -j DROP</span></div><br><div><span style="font-size: small;">说明：“-m state”表示数据包的连接状态，“NEW”表示与任何连接无关的，新的嘛！</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">14.拒绝访问防火墙的新数据包，但允许响应连接或与已有连接相关的数据包</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -A INPUT -p tcp -m state –state NEW -j DROP</span></div><br><div><span style="font-size: small;">iptables -A INPUT -p tcp -m state –state ESTABLISHED,RELATED -j ACCEPT</span></div><br><div><span style="font-size: small;">说明：“ESTABLISHED”表示已经响应请求或者已经建立连接的数据包，“RELATED”表示与已建立的连接有相关性的，比如FTP数据连接等。</span></div><br><div><span style="font-size: small;"> </span></div><br><div></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">15.只开放本机的web服务（80）、FTP(20、21、20450-20480)，放行外部主机发住服务器其它端口的应答数据包，将其他入站数据包均予以丢弃处理。</span></div><br><div><span style="font-size: small;"> </span></div><br><div><span style="font-size: small;">iptables -I INPUT -p tcp -m multiport –dport 20,21,80 -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -I INPUT -p tcp –dport 20450:20480 -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -I INPUT -p tcp -m state –state ESTABLISHED -j ACCEPT</span></div><br><div><span style="font-size: small;">iptables -P INPUT DROP</span></div>
           
         
       
@@ -1881,7 +1144,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2015-02-04 15:04:00" itemprop="dateCreated datePublished" datetime="2015-02-04T15:04:00+00:00">2015-02-04</time>
+              <time title="创建时间：2015-02-04 15:04:00" itemprop="dateCreated datePublished" datetime="2015-02-04T15:04:00+08:00">2015-02-04</time>
             
 
             
@@ -1898,7 +1161,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -2036,7 +1299,7 @@ return 1;
                 
               
 
-              <time title="创建时间：2015-02-03 17:04:00" itemprop="dateCreated datePublished" datetime="2015-02-03T17:04:00+00:00">2015-02-03</time>
+              <time title="创建时间：2015-02-03 17:04:00" itemprop="dateCreated datePublished" datetime="2015-02-03T17:04:00+08:00">2015-02-03</time>
             
 
             
@@ -2053,7 +1316,7 @@ return 1;
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-01-20 12:27:30" itemprop="dateModified" datetime="2019-01-20T12:27:30+00:00">2019-01-20</time>
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
               
             
           </span>
@@ -2131,11 +1394,487 @@ return 1;
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/35978/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yanel">
+      <meta itemprop="description" content="空虚生活的网络寄托">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空虚吧☆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/posts/35978/" class="post-title-link" itemprop="url">2014年个人分析微报告</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-01-01 12:47:00" itemprop="dateCreated datePublished" datetime="2015-01-01T12:47:00+08:00">2015-01-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://storage.googleapis.com/imgblogyanel/2014a.png" alt="木鱼"></p>
+<p>马上就要过完这2014年了，往年都有一个长长的个人总结，今年就来个微报告吧，算是对这一年的一个回顾。</p>
+<p>现在我躺在南岳祝融峰上封寺的帐篷的睡袋里，回顾这一年让我很温暖，旁边还有一条大大的木鱼陪着我，等我明年醒来迎接新一年的曙光。</p>
+<p>我相信明年会是更好的一年，去年的总结我说要抓住该抓住的，是的，2014年我无论是爱情上还是事业上，能抓住的我都没有放过，可回想起来觉得自己还是有些糊涂，糊涂的一年，没有把爱情修成正果，还失去了两个要好的朋友，没有把事业带上一个新的台阶，反而还被领导约谈多次。</p>
+<p>2014年的收入较2013增加了50%，但是依然是负债累累，依然是没房没车没存款的屌丝男，没怎么出去旅行，也没给自己买什么大件，可账本上记下的一比比开销告诉我，钱就是这么被花光的。</p>
+<p>今天也是我阳历的三十岁虚岁生日，想想从爸爸身体里出来都三十年了，对父母依然是没啥回报，十分惭愧，他们也许盼着我早日成家，早日立业，可他们依然只是在盼着。</p>
+<p>我不算是一个虔诚的佛教徒，但是，我明天会早早起来，去给圣帝点上一柱香，祈祷父母、妹妹今后能够平平安安，身体健康，开心过好每一天；祈祷自己能够在2015年心想事成；祈祷我的朋友们步步高升，财源广进。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/3639/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yanel">
+      <meta itemprop="description" content="空虚生活的网络寄托">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空虚吧☆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/posts/3639/" class="post-title-link" itemprop="url">匆匆流年</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2014-12-16 05:31:00" itemprop="dateCreated datePublished" datetime="2014-12-16T05:31:00+08:00">2014-12-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://storage.googleapis.com/imgblogyanel/104874649.jpg" alt="l"></p>
+<p>趁着今天不上班和好太阳，去大学校园逛了一圈，猛然发现自己已经离开校园6年了，而这6年似乎没办好任何事情，工作一成不变，女朋友却一直在换。</p>
+<p>连自己该如何反思都不知道了，对未来一片迷漫，想要的东西多，比如想换工作自己创业，想找女朋友然后结婚，想去东南亚来一次半个月的旅行，想买一辆自己的车。</p>
+<p>也许我一直对自己的各种定位不对，一屌丝，安安稳稳娶个老婆结婚不就是了嘛，工作反正的公务猿，混混日子也就一生过去了。</p>
+<p>可我的天性是自由的，不喜欢被束缚，不喜欢被绑架。</p>
+<p>2015年终于到了三十而立的年纪，我是需要改变还是继续沉淀下自己，在这个十字路口有些迷漫。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.yanel.me/posts/12606/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yanel">
+      <meta itemprop="description" content="空虚生活的网络寄托">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="空虚吧☆">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/posts/12606/" class="post-title-link" itemprop="url">Android使用GAE代理和PC上goagent翻墙</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2014-07-07 18:23:00" itemprop="dateCreated datePublished" datetime="2014-07-07T18:23:00+08:00">2014-07-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-20 20:27:30" itemprop="dateModified" datetime="2019-01-20T20:27:30+08:00">2019-01-20</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天就介绍如何使用安卓上的GAE代理结合goagent来翻墙教程分为两个A,B两个阶段：A: goagent GAE部署(此部分晚上教程很多，请自行google)B.安卓手机上配置GAE代理1.首先当然是下载GAE代理了，您无法在play store下载，可以在任意的第三方市场下载，如果实在找不到，也可以留言给我，我再上传到论坛。2.设置：安装好后，打开GAE代理进行设置，见下图：注意在代理地址那里填写你自己的appid，比如之前的inexus(如果能用的话)那么请在代理地址填写：<a href="https://yourappid.appspot.com/fecth.py(注意yourappid要被你自己的id替换掉，比如inexus)端口的话我测试可以随便填写：我这里写的是8087.如果您想开机就启用GAE代理，就在自动链接打勾。想使用GAE代理访问GOOGLE" target="_blank" rel="noopener">https://yourappid.appspot.com/fecth.py(注意yourappid要被你自己的id替换掉，比如inexus)端口的话我测试可以随便填写：我这里写的是8087.如果您想开机就启用GAE代理，就在自动链接打勾。想使用GAE代理访问GOOGLE</a> PLAY的话，电子市场代理打勾,另外我选择的是分应用代理，也就是个别应用才使用代理，你可以点击去设置下，比如勾选chrome,google play使用代理的。没有选择全局代理，因为翻墙的速度并不具备优势，不需要所有的访问都用代理。另外，https代理不要打钩，我测试会让国外的网站都无法访问（除了twitter.com）。然后最后记得 打开代理开关，不然它是不会运行的。这样设置好并使得GAE运行后，你打开chrome就可以看到开篇的那个图了，使用google play就可以下载更多的应用了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -2180,7 +1919,7 @@ return 1;
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">137</span>
+                    <span class="site-state-item-count">125</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2293,13 +2032,7 @@ return 1;
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">52</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2393,7 +2126,7 @@ return 1;
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2006 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2006 – <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
